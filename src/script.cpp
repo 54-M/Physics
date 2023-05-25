@@ -179,10 +179,11 @@ void gates_tool(int n) {
 
 void complement_tool() {
   string s;
-  cout << "Enter the function you want to complement: ";
+  Complementer comp;
+  cout<< "Enter the function you want to complement: ";
   getline(cin, s);
-
-  cout << "Complement: " <<  << '\n';
+  
+  cout << "Complement: " << comp.complement(s) << '\n';
   Sleep(1000);  // Pause for 1 second
 }
 
