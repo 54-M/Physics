@@ -177,6 +177,15 @@ void gates_tool(int n) {
   Sleep(1000);  // Pause for 1 second
 }
 
+void complement_tool() {
+  string s;
+  cout << "Enter the function you want to complement: ";
+  getline(cin, s);
+
+  cout << "Complement: " <<  << '\n';
+  Sleep(1000);  // Pause for 1 second
+}
+
 int main() {
   int choice;
   int b1, b2;
@@ -235,7 +244,10 @@ int main() {
           }
         }
         break;
-      case 3:  // Exit Program
+      case 3:  // Complement Function
+        complement_tool();
+        break;
+      case 4:  // Exit Program
         flag = true;
         break;
       default:
