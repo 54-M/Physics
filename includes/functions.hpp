@@ -320,6 +320,125 @@ class gates {
 
 class Complementer {
  public:
+  int priority(char operant) {
+    if (operant == '+' || operant == '-')
+      return 1;
+    else if (operant == '*' || operant == '/')
+      return 2;
+    else if (operant == '^')
+      return 3;
+    else
+      return 0;
+  }
+  string InfixToPostfix(string expression) {
+    string postfix = "";
+    stack<char> s;
+    for (int i = 0; i < expression.size(); i++) {
+      if (expression[i] == ' ') continue;
+      if (expression[i] == ')') {
+        while (s.top() != '(') {
+          postfix += s.top();
+          s.pop();
+        }
+        s.pop();
+
+      } else if (expression[i] == '(') {
+        s.push(expression[i]);
+
+      } else if (isdigit(expression[i]) || isalpha(expression[i]) || expression[i] == '\'') {
+        postfix += expression[i];
+
+      } else {
+        if (s.empty())
+          s.push(expression[i]);
+        else if (s.top() == '(')
+          s.push(expression[i]);
+        else {
+          while (!s.empty() && priority(s.top()) >= priority(expression[i])) {
+            postfix += s.top();
+            s.pop();
+          }
+          s.push(expression[i]);
+        }
+      }
+    }
+    while (!s.empty()) {
+      postfix += s.top();
+      s.pop();
+    }
+    return postfix;
+  }
+
+  string PostfixToInfix(string expression) {
+    stack<string> s;
+    for (int i = 0; i < expression.size(); i++) {
+      if (expression[i] == ' ') continue;
+      if (isdigit(expression[i]) || isalpha(expression[i])) {
+        string op(1, expression[i]);
+        if (expression[i + 1] == '\'')
+          op += '\'', s.push(op), i++;
+        else
+          s.push(op);
+
+      } else {
+        string op1 = s.top();
+        if (op1.back() == '\'')
+          op1.pop_back();
+        else if (op1.back() != ')')
+          op1 += '\'';
+
+        s.pop();
+        string op2 = s.top();
+        if (op2.back() == '\'')
+          op2.pop_back();
+        else if (op2.back() != ')')
+          op2 += '\'';
+        s.pop();
+        if (expression[i] == '+')
+          expression[i] = '*';
+        else
+          expression[i] = '+';
+        s.push("(" + op2 + expression[i] + op1 + ")");
+      }
+    }
+    return s.top();
+  }
+
+  string complement(string exp) {
+    string converted;
+
+    for (int i = 0; i <= exp.find('='); i++) {
+      if (isalpha(exp[i]) && exp[i + 1] == '\'') {
+        converted += exp[i] + ' ';
+
+        i++;
+      } else if (isalpha(exp[i])) {
+        converted += exp[i] + '\'' + ' ';
+
+      } else
+        converted += exp[i];
+    }
+    converted += ' ';
+
+    exp = exp.substr(exp.find('=') + 1, exp.size());
+
+    string a = InfixToPostfix(exp);
+    string b = PostfixToInfix(a);
+    for (int i = 0; i < b.size(); i++) {
+      if (isalpha(b[i]) && b[i + 1] == '\'') {
+        converted += b[i] + b[i + 1];
+        i++;
+
+      } else if (isalpha(b[i]) && b[i + 1] == ')') {
+        converted += b[i];
+
+      } else if (b[i] != '(' && b[i] != ')') {
+        converted += ' ' + b[i] + ' ';
+
+      } else
+        converted += b[i];
+    }
+  }
 };
 
 #endif  // FUNCTIONS
