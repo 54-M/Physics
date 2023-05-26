@@ -330,24 +330,23 @@ class Complementer {
     else
       return 0;
   }
+
   string InfixToPostfix(string expression) {
     string postfix = "";
     stack<char> s;
     for (int i = 0; i < expression.size(); i++) {
-      if (expression[i] == ' ') continue;
+      if (expression[i] == ' ')
+        continue;
       if (expression[i] == ')') {
         while (s.top() != '(') {
           postfix += s.top();
           s.pop();
         }
         s.pop();
-
       } else if (expression[i] == '(') {
         s.push(expression[i]);
-
       } else if (isdigit(expression[i]) || isalpha(expression[i]) || expression[i] == '\'') {
         postfix += expression[i];
-
       } else {
         if (s.empty())
           s.push(expression[i]);
@@ -372,21 +371,23 @@ class Complementer {
   string PostfixToInfix(string expression) {
     stack<string> s;
     for (int i = 0; i < expression.size(); i++) {
-      if (expression[i] == ' ') continue;
+      if (expression[i] == ' ')
+        continue;
       if (isdigit(expression[i]) || isalpha(expression[i])) {
         string op(1, expression[i]);
-        if (expression[i + 1] == '\'')
-          op += '\'', s.push(op), i++;
-        else
+        if (expression[i + 1] == '\'') {
+          op += '\'';
           s.push(op);
-
+          i++;
+        } else {
+          s.push(op);
+        }
       } else {
         string op1 = s.top();
         if (op1.back() == '\'')
           op1.pop_back();
         else if (op1.back() != ')')
           op1 += '\'';
-
         s.pop();
         string op2 = s.top();
         if (op2.back() == '\'')
@@ -409,12 +410,14 @@ class Complementer {
 
     for (int i = 0; i <= exp.find('='); i++) {
       if (isalpha(exp[i]) && exp[i + 1] == '\'') {
-        converted += exp[i] + ' ';
+        converted += exp[i];
+        converted += exp[i + 1];
+        converted += ' ';
 
         i++;
       } else if (isalpha(exp[i])) {
-        converted += exp[i] + '\'' + ' ';
-
+        converted += exp[i];
+        converted += '\'';
       } else
         converted += exp[i];
     }
@@ -424,20 +427,22 @@ class Complementer {
 
     string a = InfixToPostfix(exp);
     string b = PostfixToInfix(a);
+
     for (int i = 0; i < b.size(); i++) {
       if (isalpha(b[i]) && b[i + 1] == '\'') {
-        converted += b[i] + b[i + 1];
-        i++;
-
-      } else if (isalpha(b[i]) && b[i + 1] == ')') {
         converted += b[i];
+        converted += b[i + 1];
+        converted += ' ';
 
-      } else if (b[i] != '(' && b[i] != ')') {
-        converted += ' ' + b[i] + ' ';
-
+        i++;
+      } else if (isalpha(b[i])) {
+        converted += b[i];
+        converted += '\'';
+        converted += ' ';
       } else
         converted += b[i];
     }
+    return converted;
   }
 };
 

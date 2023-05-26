@@ -180,11 +180,22 @@ void gates_tool(int n) {
 void complement_tool() {
   string s;
   Complementer comp;
-  cout<< "Enter the function you want to complement: ";
-  getline(cin, s);
-  
-  cout << "Complement: " << comp.complement(s) << '\n';
-  Sleep(1000);  // Pause for 1 second
+  while (true) {
+    cout << "Enter the function you want to complement: ";
+    cin.ignore();  // Discard newline character from previous input
+    getline(cin, s);
+
+    cout << "Complement: " << comp.complement(s) << '\n';
+
+    char continueChoice;
+    cout << "Do you want to continue? (Y/N): ";
+    cin >> continueChoice;
+
+    if (toupper(continueChoice) != 'Y') {
+      Sleep(700);
+      break;
+    }
+  }
 }
 
 int main() {
