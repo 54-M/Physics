@@ -316,6 +316,32 @@ class gates {
 
   // Implication gate
   bool _imp(bool a, bool b) { return !a or b; }
+
+  // Physics part 4
+
+  // half adder
+  // return {sum, carry}
+  pair<bool, bool> _halfAdder(bool a, bool b) {
+    return {_xor(a, b), _and(a, b)};
+  }
+  // full adder
+  // take 2 bits and carry in
+  // return {sum, carry_out}
+  pair<bool, bool> _fullAdder(bool a, bool b, bool c) {
+    return {_xor(_xor(a, b), c), _or(_and(_xor(a, b), c), _and(a, b))};
+  }
+  // half subtractor
+  // take 2 bits
+  // return {difference, borrow}
+  pair<bool, bool> _halfSubtractor(bool a, bool b) {
+    return {_xor(a, b), _and(_not(a), b)};
+  }
+  // full subtractor
+  // take 3 bits
+  // return {difference, borrow}
+  pair<bool, bool> _fullSubtractor(bool a, bool b, bool c) {
+    return {_xor(_xor(a, b), c), _or(_and(_xor(a, b), c), _and(_not(a), b))};
+  }
 };
 
 class Complementer {
@@ -418,6 +444,7 @@ class Complementer {
       } else if (isalpha(exp[i])) {
         converted += exp[i];
         converted += '\'';
+        converted += ' ';
       } else
         converted += exp[i];
     }

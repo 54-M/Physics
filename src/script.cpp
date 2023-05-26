@@ -110,20 +110,24 @@ void conv_tool(int b1, int b2) {
   Sleep(1000);  // Pause for 1 second
 }
 
-void gates_src() {
+void gates_scr() {
   cout << "\n===================" << '\n';
   cout << "Logic Gates" << '\n';
   cout << "===================" << '\n';
   cout << "Please select a logic gate:" << '\n';
-  cout << "1. AND" << '\n';
-  cout << "2. OR" << '\n';
-  cout << "3. NOT" << '\n';
-  cout << "4. XOR" << '\n';
-  cout << "5. NAND" << '\n';
-  cout << "6. NOR" << '\n';
-  cout << "7. XNOR" << '\n';
-  cout << "8. Implication" << '\n';
-  cout << "9. Go back to the main menu" << '\n';
+  cout << "1.  AND" << '\n';
+  cout << "2.  OR" << '\n';
+  cout << "3.  NOT" << '\n';
+  cout << "4.  XOR" << '\n';
+  cout << "5.  NAND" << '\n';
+  cout << "6.  NOR" << '\n';
+  cout << "7.  XNOR" << '\n';
+  cout << "8.  Implication" << '\n';
+  cout << "9.  Half Adder" << '\n';
+  cout << "10. Full Adder" << '\n';
+  cout << "11. Half Subtractor" << '\n';
+  cout << "12. Full Subtractor" << '\n';
+  cout << "13. Go back to the main menu" << '\n';
   cout << "===================" << '\n';
 }
 
@@ -133,6 +137,7 @@ void gates_tool(int n) {
 
   cout << "Enter input 1 (0 or 1): ";
   cin >> a;
+
   cout << "Enter input 2 (0 or 1): ";
   cin >> b;
 
@@ -168,6 +173,27 @@ void gates_tool(int n) {
     case 8:  // Implication gate
       r = gate._imp(a, b);
       cout << "Result: " << r << '\n';
+      break;
+    case 9:  // Half Adder
+      cout << "Sum: " << gate._halfAdder(a, b).first << '\n';
+      cout << "Carry: " << gate._halfAdder(a, b).second << '\n';
+      break;
+    case 10:  // Full Adder
+      bool c_in;
+      cout << "Enter carry-in (0 or 1): ";
+      cin >> c_in;
+      cout << "Sum: " << gate._fullAdder(a, b, c_in).first << '\n';
+      cout << "Carry: " << gate._fullAdder(a, b, c_in).second << '\n';
+      break;
+    case 11:  // Half Subtractor
+      cout << "Difference: " << gate._halfSubtractor(a, b).first << '\n';
+      cout << "Borrow-out: " << gate._halfSubtractor(a, b).second << '\n';
+      break;
+    case 12:  // Full Subtractor
+      cout << "Enter borrow-in (0 or 1): ";
+      cin >> c_in;
+      cout << "Difference: " << gate._fullSubtractor(a, b, c_in).first << '\n';
+      cout << "Borrow-out: " << gate._fullSubtractor(a, b, c_in).second << '\n';
       break;
     default:
       cout << "Invalid gate selection!" << '\n';
@@ -237,11 +263,12 @@ int main() {
         break;
       case 2:  // Logic Gates
         while (true) {
-          gates_src();
+          Sleep(1000);  // Pause for 1 second
+          gates_scr();
           cout << "Enter your choice: ";
           cin >> choice;
 
-          if (choice == 9) {
+          if (choice == 13) {
             break;  // Go back to the main menu
           }
 
@@ -259,12 +286,16 @@ int main() {
       case 3:  // Complement Function
         complement_tool();
         break;
-      case 4:  // Exit Program
+      case 4:  // Exit
         flag = true;
         break;
       default:
-        cout << "Invalid choice! Please try again." << '\n';
+        cout << "Invalid choice!" << '\n';
         break;
     }
   }
+
+  cout << "Thank you for using the program. Goodbye!" << '\n';
+
+  return 0;
 }
